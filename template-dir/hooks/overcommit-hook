@@ -51,6 +51,18 @@ rescue LoadError
 end
 
 begin
+  isXcode = false
+  begin
+    $stdin.reopen(File.open("/dev/tty", "r"))
+    puts "22222"
+  rescue
+    isXcode = true
+    puts "!!!!!!!"
+  end
+
+
+  $stdout.reopen("out.txt", "w") if isXcode
+
   logger = Overcommit::Logger.new(STDOUT)
   Overcommit::Utils.log = logger
 
