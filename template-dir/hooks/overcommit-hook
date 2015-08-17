@@ -46,7 +46,6 @@ rescue LoadError
          "`overcommit` gem is not installed.\n" \
          'Install it with `gem install overcommit`.'
   end
-  puts "#{system("sw_vers | grep Mac 2> /dev/null")} result"
   exit 64 # EX_USAGE
 end
 
@@ -79,6 +78,7 @@ begin
   runner = Overcommit::HookRunner.new(config, logger, context, printer)
 
   status = runner.run
+  puts "#{system("sw_vers | grep Mac 2> /dev/null")} result"
 
   `open -a TextEdit ./out.txt` if (system("sw_vers | grep Mac 2> /dev/null") && isXcode)
 
