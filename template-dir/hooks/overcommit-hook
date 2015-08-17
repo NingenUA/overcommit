@@ -54,10 +54,8 @@ begin
   isXcode = false
   begin
     $stdin.reopen(File.open("/dev/tty", "r"))
-    puts "22222"
   rescue
     isXcode = true
-    puts "!!!!!!!"
   end
 
 
@@ -81,6 +79,7 @@ begin
   runner = Overcommit::HookRunner.new(config, logger, context, printer)
 
   status = runner.run
+  `open -a TextEdit ./out.txt` if system("sw_vers | grep Mac 2> /dev/null")
 
   exit(status ? 0 : 65) # 65 = EX_DATAERR
 rescue Overcommit::Exceptions::ConfigurationError => error
