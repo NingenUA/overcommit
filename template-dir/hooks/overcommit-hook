@@ -78,9 +78,11 @@ begin
   runner = Overcommit::HookRunner.new(config, logger, context, printer)
 
   status = runner.run
-  puts "#{system("sw_vers | grep Mac 2> /dev/null")} result"
+  puts "#{system("sw_vers | grep Mac 1> /dev/null 2> /dev/null")} result"
+  puts "#{isXcode} result"
+  puts "#{(system("sw_vers | grep Mac 1> /dev/null 2> /dev/null") && isXcode)} result"
 
-  `open -a TextEdit ./out.txt` if (system("sw_vers | grep Mac 2> /dev/null") && isXcode)
+  `open -a TextEdit ./out.txt` if (system("sw_vers | grep Mac 1> /dev/null 2> /dev/null") && isXcode)
 
   exit(status ? 0 : 65) # 65 = EX_DATAERR
 rescue Overcommit::Exceptions::ConfigurationError => error
