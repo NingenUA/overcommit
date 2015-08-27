@@ -254,6 +254,29 @@ module Overcommit
         )
       end
 
+      def windows?
+        host_os = RbConfig::CONFIG['host_os']
+        (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ host_os) != nil
+      end
+
+      def mac?
+        (/darwin/ =~ RbConfig::CONFIG['host_os']) != nil
+      end
+
+      def suse?
+        File.exist?('/etc/SuSe-release')
+      end
+
+      def ubuntu?
+        if File.exist?('/etc/debian_version')
+          if File.exist?('/etc/lsb-release')
+            dist = `cat /etc/lsb-release | grep '^DISTRIB_ID'\
+                  | awk -F=  '{ print $2 }'`.strip
+            dist.downcase == 'ubuntu'
+          end
+        end
+      end
+
       private
 
       # Log debug output.
